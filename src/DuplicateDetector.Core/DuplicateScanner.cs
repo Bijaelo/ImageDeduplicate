@@ -35,12 +35,6 @@ public class DuplicateScanner
         var files = EnumerateFiles(options.RootPath, options.DisplayPattern, extensions);
         report.Stats = report.Stats with { TotalFiles = files.Count };
 
-        var filesByLength = files
-            .GroupBy(f => f.Length)
-            .Where(g => g.Count() > 1)
-            .SelectMany(g => g)
-            .ToList();
-
         var results = new ConcurrentDictionary<string, (PixelHashResult hash, CaptureImageInfo info)>(StringComparer.OrdinalIgnoreCase);
         var errors = new ConcurrentBag<string>();
         var hashedCount = 0;
@@ -50,7 +44,7 @@ public class DuplicateScanner
         using var semaphore = new SemaphoreSlim(maxDegree);
         var tasks = new List<Task>();
 
-        foreach (var file in filesByLength)
+        foreach (var file in files)
         {
             tasks.Add(ProcessFileAsync(file));
         }
