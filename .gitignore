@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+.vscode/
+TestResults/
+*.user
+*.suo
+*.DotSettings
+*.swp
+*.tmp
+*.log
+*.DS_Store
+artifacts/
